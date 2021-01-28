@@ -6,22 +6,27 @@ function beginTeaser(){
 
     let url = 'https://kit-questions.glitch.me/question/' + subject + "/" + quantity_of_questions;
 
-    let start_quiz_btn = document.getElementById('startBtn');
-
     //calling the API
     fetch(url)
-    .then(Response=>Response.json())
-    .then(data=>console.log(data))
+    .then(response => response.json())
+    .then(data => console.log(data))
     .catch((error)=>{
         console.log('error');
     });
-
-    console.log(quantity_of_questions);
-    console.log(subject);
-
 }
 
-start_quiz_btn.addEventListener("click", beginTeaser());
+function changeStage(){
+    //Hide first container
+    let firstContainer = document.getElementById('container');
+    let secondContainer = document.getElementById("questionairContainer");
+    firstContainer.style.display = "none";
+    secondContainer.style.display = "flex";
+}
+
+//calling function on the start teaser btn
+let start_quiz_btn = document.getElementById('startBtn');
+start_quiz_btn.addEventListener("click", beginTeaser);
+start_quiz_btn.addEventListener("click", changeStage);
 
 
 
