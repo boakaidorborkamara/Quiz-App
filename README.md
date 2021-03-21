@@ -1,1 +1,1 @@
-# Brain-Teaser-App
+# Studypedia
