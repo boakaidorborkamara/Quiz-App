@@ -1,1 +1,1 @@
-# Studypedia
+# Quiz App
