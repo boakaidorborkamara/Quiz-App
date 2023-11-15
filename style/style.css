@@ -11,6 +11,10 @@ body{
     background-color: #313E51;
 }
 
+.category-logo{
+    width: 10%;
+}
+
 .quiz-category{
     background-color: #3C4D67;
 }
@@ -18,5 +22,5 @@ body{
 .quiz-category:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    background-color: #2D3949;
+    background-color: #66553B;
 }
