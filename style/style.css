@@ -1,6 +1,8 @@
 /* primary color #3C4D67 */
 /* hilight color #66553B */
-
+body{
+    font-family: 'Space Grotesk', sans-serif;;
+}
 header{
     background-color: #2D3949;
 }
