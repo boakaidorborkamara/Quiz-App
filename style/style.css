@@ -15,6 +15,10 @@ body{
     width: 10%;
 }
 
+.header-text-logo{
+    width: 5%;
+}
+
 .quiz-category{
     background-color: #3C4D67;
 }

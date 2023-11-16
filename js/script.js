@@ -383,28 +383,21 @@ class App{
 
         this.category = [{name:"HTML", logo:"https://cdn.worldvectorlogo.com/logos/html-1.svg"}, {name:"CSS", logo:"https://cdn.worldvectorlogo.com/logos/css-3.svg"}, {name:"JavaScript", logo:"https://cdn.worldvectorlogo.com/logos/javascript-1.svg"}, {name:"GIT", logo:"https://cdn.worldvectorlogo.com/logos/git-icon.svg"}, {name:"Python", logo:"https://cdn.worldvectorlogo.com/logos/python-5.svg"}, {name:"NodeJS", logo:"https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg"}];
 
+        // DOM ELEMENTS 
         this.welcome_section_ele = document.getElementById("welcome-section");
         this.question_paragraph_ele = document.getElementById("question-text");
         this.answer_options_container = document.getElementById("answer-options-container");
         this.category_section_ele = document.getElementById("category-section");
         this.questions_section_ele = document.getElementById("questions-section");
+        this.header_subject_container = document.getElementById("header-subject-container");
     };
  
     displayCategories(){
-        let category_options_template = `
-            <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded">
-            <div class="d-flex  align-items-center">
-                <i class="bi bi-journal-bookmark-fill fs-2 text-dark bg-light px-2 rounded me-2"></i>
-            </div>
-            <h6>MATH</h6>
-            </div>
-        `;
-
         this.category.forEach(ele=>{
             let category_options_template = `
                 <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded shadow-sm">
-                <img class="category-logo bg-light p-1 rounded me-4" src=${ele.logo} />
-                <h6 class="fw-bold">${ele.name}</h6>
+                    <img class="category-logo bg-light p-1 rounded me-4" src=${ele.logo} />
+                    <p class="fs-5">${ele.name}</p>
                 </div>
             `;
 
@@ -426,6 +419,8 @@ class App{
         
             // check if any of the options from the quiz category was clicked 
             if(clicked_ele.classList.contains("quiz-category")){
+                this.updateHeader(clicked_ele);
+
                 // get questions based on selected subject option 
                 let selected_subject = this.getSelectedSubject(clicked_ele);
                 let questions = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
@@ -461,6 +456,24 @@ class App{
 
     }
 
+    updateHeader(clicked_ele){
+
+        let elements = clicked_ele.children;
+
+        // extract text from clicked DOM element 
+        let elements_texts = [{subject: elements[1].innerText, logo:elements[0].attributes.src.value}];
+
+        let HTML_template = `
+            <div class="d-flex align-items-center">
+                <img class="header-text-logo bg-light p-1 rounded me-2" src=${elements_texts[0].logo} />
+                <h3>${elements_texts[0].subject}</h3>
+            </div>
+        `;
+
+        // update header 
+        this.header_subject_container.insertAdjacentHTML("beforeend", HTML_template);
+    }
+
     hideElement(ele){
         ele.classList.add("d-none");
     }
@@ -471,10 +484,15 @@ class App{
 
 }
 
+
 // initialize the app 
 let brainBoasterApp = new App();
 brainBoasterApp.displayCategories();
 brainBoasterApp.displayQuestions();
+
+document.addEventListener("click",(e)=>{
+    console.log(e.target);
+})
   
   
   
