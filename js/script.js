@@ -381,7 +381,17 @@
 
 
 // DOM ELEMENTS 
+let welcome_section_ele = document.getElementById("welcome-section");
+
+let question_paragraph_ele = document.getElementById("question-text");
+
+let answer_options_container = document.getElementById("answer-options-container");
+
+// welcome_section_ele.classList.add("d-none")
 let category_section_ele = document.getElementById("category-section");
+
+let questions_section_ele = document.getElementById("questions-section");
+console.log(questions_section_ele);
 
 console.log(category_section_ele);
 
@@ -514,7 +524,7 @@ class App{
             ],  
               
             // JS Questions Bank
-            jsQuestionsBank : [
+            javascriptQuestionsBank : [
                 {
                   question: "What is the correct way to declare a variable in JavaScript?",
                   options: ["variable x;", "let x;", "vx;", "int x;"],
@@ -782,7 +792,7 @@ class App{
 
         this.category.forEach(ele=>{
             let category_options_template = `
-                <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded">
+                <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded shadow-sm">
                 <img class="category-logo bg-light p-1 rounded me-4" src=${ele.logo} />
                 <h6 class="fw-bold">${ele.name}</h6>
                 </div>
@@ -790,14 +800,72 @@ class App{
 
             DOM_ele.insertAdjacentHTML("beforeend", category_options_template);
         })
+    };
+
+    getSelectedSubject(DOM_ele){
+        let subject = DOM_ele.innerText;
+        return subject;
+    }
+
+    displayQuestions(DOM_ele){
+        let selected_subject = this.getSelectedSubject(DOM_ele);
+
+        // questions based on selected subject 
+        let questions = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
+
+        
+
+        console.log(questions[0]);
+
+        question_paragraph_ele.innerText = questions[0]["question"];
+
+        let answer_labels = ["A","B","C", "D"];
+        let counter = 0;
+        questions[0].options.forEach(ele=>{
+            // console.log(ele);
+            let index = questions[0].options.indexOf(ele);
+            console.log(index);
+            let answer_options_template = `
+                <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded">
+                <div>
+                    <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[index]}</h3>
+                </div>
+                <h6>${ele}</h6>
+                </div>
+            `;
+            answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
+        });
+
+        
+
+        this.hideElement(welcome_section_ele);
+        this.showElement(questions_section_ele);
+
+    }
+
+    hideElement(ele){
+        ele.classList.add("d-none");
+    }
+
+    showElement(ele){
+        ele.classList.remove("d-none");
     }
 
 }
 
+// create a new instance of App 
+let brainBoasterApp = new App();
 
-let brainBoaster = new App();
+brainBoasterApp.displayCategories(category_section_ele);
 
-brainBoaster.displayCategories(category_section_ele);
+document.addEventListener("click", (e)=>{
+    let clicked_ele = e.target;
+    console.log(clicked_ele)
+
+    if(clicked_ele.classList.contains("quiz-category")){
+        brainBoasterApp.displayQuestions(clicked_ele)
+    }
+})
   
   
   
