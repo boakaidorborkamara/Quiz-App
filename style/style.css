@@ -28,3 +28,27 @@ body{
     /* border: 1px solid white; */
     background-color: #66553B;
 }
+
+.answer-option{
+    background-color: #3C4D67;
+}
+
+
+.answer-option:hover{
+    cursor: pointer;
+    /* border: 1px solid white; */
+    background-color: #66553B;
+}
+
+.pass{
+    background-color: rgb(2, 84, 2);
+}
+
+
+.fail{
+    background-color: rgb(125, 5, 5) I !important;
+}
+
+.selected-answer{
+    background-color: #0f1217;
+}

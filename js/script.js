@@ -383,6 +383,10 @@ class App{
 
         this.category = [{name:"HTML", logo:"https://cdn.worldvectorlogo.com/logos/html-1.svg"}, {name:"CSS", logo:"https://cdn.worldvectorlogo.com/logos/css-3.svg"}, {name:"JavaScript", logo:"https://cdn.worldvectorlogo.com/logos/javascript-1.svg"}, {name:"GIT", logo:"https://cdn.worldvectorlogo.com/logos/git-icon.svg"}, {name:"Python", logo:"https://cdn.worldvectorlogo.com/logos/python-5.svg"}, {name:"NodeJS", logo:"https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg"}];
 
+        this.selected_answer = "";
+        this.question_index = 0;
+        this.questions_per_category = null;
+
         // DOM ELEMENTS 
         this.welcome_section_ele = document.getElementById("welcome-section");
         this.question_paragraph_ele = document.getElementById("question-text");
@@ -390,6 +394,7 @@ class App{
         this.category_section_ele = document.getElementById("category-section");
         this.questions_section_ele = document.getElementById("questions-section");
         this.header_subject_container = document.getElementById("header-subject-container");
+        this.submit_btn_ele = document.getElementById("submit-btn");
     };
  
     displayCategories(){
@@ -405,17 +410,13 @@ class App{
         })
     };
 
-    getSelectedSubject(DOM_ele){
-        let subject = DOM_ele.innerText;
-        return subject;
-    }
-
     displayQuestions(){
 
         document.addEventListener("click", (e)=>{
 
             // the DOM element clicked by the user 
             let clicked_ele = e.target;
+            
         
             // check if any of the options from the quiz category was clicked 
             if(clicked_ele.classList.contains("quiz-category")){
@@ -423,28 +424,26 @@ class App{
 
                 // get questions based on selected subject option 
                 let selected_subject = this.getSelectedSubject(clicked_ele);
-                let questions = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
+                this.questions_per_category = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
                 
                 //display a question from the questions of the selected subject
-                this.question_paragraph_ele.innerText = questions[0]["question"];
+                this.question_paragraph_ele.innerText = this.questions_per_category[this.question_index]["question"];
+                this.question_paragraph_ele.classList.add("question-index-"+this.question_index);
 
+                // display answer options 
                 let answer_labels = ["A","B","C", "D"];
-                let counter = 0;
-                questions[0].options.forEach(ele=>{
-                    // console.log(ele);
-                    let index = questions[0].options.indexOf(ele);
-                    console.log(index);
+                this.questions_per_category[0].options.forEach(ele=>{
+                    let answer_options_index = this.questions_per_category[0].options.indexOf(ele);
                     let answer_options_template = `
-                        <div class="quiz-category px-4 py-2 mb-4 d-flex  align-items-center rounded">
+                        <div class="answer-option px-4 py-2 mb-4 d-flex  align-items-center rounded">
                         <div>
-                            <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[index]}</h3>
+                            <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[answer_options_index]}</h3>
                         </div>
                         <h6>${ele}</h6>
                         </div>
                     `;
                     this.answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
                 });
-
 
                 //hide welcome section and show questions section
                 this.hideElement(this.welcome_section_ele);  
@@ -454,6 +453,11 @@ class App{
     });
 
 
+    }
+
+    getSelectedSubject(DOM_ele){
+        let subject = DOM_ele.innerText;
+        return subject;
     }
 
     updateHeader(clicked_ele){
@@ -474,6 +478,65 @@ class App{
         this.header_subject_container.insertAdjacentHTML("beforeend", HTML_template);
     }
 
+    submitAnswer(){
+        document.addEventListener("click", (e)=>{
+            let clicked_ele = e.target;
+
+            if(clicked_ele.classList.contains("answer-option")){
+                
+                let all_options = clicked_ele.parentNode.children;
+                this.selectAnswer(clicked_ele, all_options);
+                // for(let i=0; i<4; i++){
+                //     all_options[i].classList.remove("selected-answer");
+                // }
+                // clicked_ele.classList.add("selected-answer");
+                // // let current_question = this.question_paragraph_ele
+                // console.log("kllll", this.question_index)
+                // this.selected_answer = clicked_ele.children[1].innerText;
+                
+
+            }
+
+            if(clicked_ele.id === "submit-btn"){
+                console.log("submitting", this.selected_answer);
+                this.validateAnswer(this.selected_answer, clicked_ele);
+            }
+        });
+    }
+
+    validateAnswer(user_answer, ele){
+        let correct_answer = this.questions_per_category[this.question_index].correctAnswer;
+        if(user_answer === ""){
+            alert("Select an anser");
+        }
+        if(user_answer === correct_answer ){
+            console.log("working");
+            console.log("styling", ele);
+            ele.classList.add("fail")
+            console.log("Class list", ele.classList)
+
+        }
+        console.log("Q-index", this.question_index)
+        console.log("qI", this.questions_per_category[this.question_index].correctAnswer);
+
+
+        
+    }
+
+    selectAnswer(element, parent_ele){
+        // loop through all children of parent element and remove style 
+        for(let i=0; i<4; i++){
+            parent_ele[i].classList.remove("selected-answer");
+        }
+
+        // add style to the anser option that was clicked 
+        element.classList.add("selected-answer");
+
+        // extract text from selected element and save it 
+        this.selected_answer = element.children[1].innerText;        
+    }
+
+
     hideElement(ele){
         ele.classList.add("d-none");
     }
@@ -482,13 +545,19 @@ class App{
         ele.classList.remove("d-none");
     }
 
+    // contains methods that enable app to run and implement all features 
+    int(){
+        this.displayCategories();
+        this.displayQuestions();
+        this.submitAnswer();
+    }
+
 }
 
 
 // initialize the app 
 let brainBoasterApp = new App();
-brainBoasterApp.displayCategories();
-brainBoasterApp.displayQuestions();
+brainBoasterApp.int();
 
 document.addEventListener("click",(e)=>{
     console.log(e.target);
