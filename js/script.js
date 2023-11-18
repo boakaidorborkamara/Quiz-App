@@ -386,6 +386,8 @@ class App{
         this.selected_answer = "";
         this.question_index = 0;
         this.questions_per_category = null;
+        this.answered_questions = 0;
+        this.correctly_answered_questions = 0;
 
         // DOM ELEMENTS 
         this.welcome_section_ele = document.getElementById("welcome-section");
@@ -488,61 +490,98 @@ class App{
             let clicked_ele = e.target;
 
             if(clicked_ele.classList.contains("answer-option")){
-                
                 clicked_ele.id = "selected-answer";
                 let all_options = clicked_ele.parentNode.children;
-                console.log("about to select")
                 this.selectAnswer(clicked_ele, all_options);
             }
 
             if(clicked_ele.id === "submit-btn"){
                 let selected_answer_ele = document.getElementById("selected-answer");
-                console.log("targeting", selected_answer_ele);
-                console.log("submitting", this.selected_answer);
-                // console.log("selecete ele2", selected_option)
                 this.validateAnswer(this.selected_answer, selected_answer_ele);
+                setTimeout(()=>{
+                  this.goToNextQuestion();
+                }, 4000)
             }
+            
         });
+    }
+
+    selectAnswer(element, parent_ele){
+      console.log(element)
+      // loop through all children of parent element and remove style 
+      for(let i=0; i<4; i++){
+          if(parent_ele[i].classList.contains("selected-answer")){
+            parent_ele[i].classList.remove("selected-answer");
+          }
+      }
+
+      // add style to the anser option that was clicked 
+      element.classList.add("selected-answer");
+
+      // extract text from selected element and save it 
+      this.selected_answer = element.children[1].innerText;        
     }
 
     validateAnswer(user_answer, ele){
         let correct_answer = this.questions_per_category[this.question_index].correctAnswer;
+
+        // check if user submits without selecting an answer 
         if(user_answer === ""){
-            alert("Select an anser");
+            alert("No answer selected!");
             return;
         }
 
         if(user_answer === correct_answer ){
             ele.classList.remove("selected-answer");
             ele.classList.add("pass");
-            let pass_icon = document.getElementById("pass-icon");
+            this.correctly_answered_questions++;
+            
+
         }
         else{
             ele.classList.add("fail");
         }
-        console.log("Q-index", this.question_index)
-        console.log("qI", this.questions_per_category[this.question_index].correctAnswer);
-
-
         
+        // increment the amount of qustions the user have answered 
+        this.answered_questions++
+
     }
 
-    selectAnswer(element, parent_ele){
-        console.log(element)
-        // loop through all children of parent element and remove style 
-        for(let i=0; i<4; i++){
-            if(parent_ele[i].classList.contains("selected-answer")){
-              parent_ele[i].classList.remove("selected-answer");
-            }
-        }
+    goToNextQuestion(){
+      // increment question index to update to the index of the next question 
+      this.question_index++
+      
+      this.selected_answer = "";
+      
+      // clear previously displayed options from the DOM 
+      while(this.answer_options_container.firstElementChild){
+        this.answer_options_container.removeChild(this.answer_options_container.firstElementChild);        
+      }
 
-        // add style to the anser option that was clicked 
-        element.classList.add("selected-answer");
+      // update DOM with new question 
+      this.question_paragraph_ele.innerText = this.questions_per_category[this.question_index]["question"];
+      this.question_paragraph_ele.classList.add("question-index-"+this.question_index);
 
-        // extract text from selected element and save it 
-        this.selected_answer = element.children[1].innerText;        
+      // display answer options for new question
+      let answer_labels = ["A","B","C", "D"];
+      this.questions_per_category[this.question_index].options.forEach(ele=>{
+          let answer_options_index = this.questions_per_category[this.question_index].options.indexOf(ele);
+          let answer_options_template = `
+              <div class="answer-option px-4 py-2 mb-4 d-flex  align-items-center rounded">
+              <div>
+                  <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[answer_options_index]}</h3>
+              </div>
+              
+              <div class="d-flex justify-content-between align-items-center w-100">
+                <h6 class="me-5">${ele}</h6>
+                <i class="bi bi-check-square-fill d-none" id="pass-icon"></i>
+                <i class="bi bi-x-square-fill d-none" id="fail-icon"></i>
+              </div>
+              </div>
+          `;
+          this.answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
+      });
     }
-
 
     hideElement(ele){
         ele.classList.add("d-none");
@@ -565,10 +604,6 @@ class App{
 // initialize the app 
 let brainBoasterApp = new App();
 brainBoasterApp.int();
-
-// document.addEventListener("click",(e)=>{
-//     console.log(e.target);
-// })
   
   
   
