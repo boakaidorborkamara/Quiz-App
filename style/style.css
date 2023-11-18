@@ -1,15 +1,14 @@
 /* primary color #3C4D67 */
 /* hilight color #66553B */
 body{
-    font-family: 'Space Grotesk', sans-serif;;
+    font-family: 'Space Grotesk', sans-serif;
+    background:linear-gradient(0deg, rgb(14, 14, 14), rgba(11, 11, 11, 0.8)), url(https://media0.giphy.com/media/8zNfMhtQ6jh3XZZlwJ/giphy.gif?cid=ecf05e47tc2480ekqtckqwty0mdcx4132b3evvr8e06lepor&ep=v1_gifs_search&rid=giphy.gif&ct=g);
 }
-header{
+/* header{
     background-color: #2D3949;
-}
+} */
 
-body{
-    background-color: #313E51;
-}
+
 
 .category-logo{
     width: 10%;
@@ -20,24 +19,24 @@ body{
 }
 
 .quiz-category{
-    background-color: #3C4D67;
+    background-color: #300738;
 }
 
 .quiz-category:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    background-color: #3b485b;
+    background-color: #61236d;
 }
 
 .answer-option{
-    background-color: #3C4D67;
+    background-color: #300738;
 }
 
 
 .answer-option:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    border-bottom: 4px solid #66553B;
+    border-bottom: 4px double #61236d;
 }
 
 .pass{

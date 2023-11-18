@@ -477,7 +477,7 @@ class App{
         let HTML_template = `
             <div class="d-flex align-items-center">
                 <img class="header-text-logo bg-light p-1 rounded me-2" src=${elements_texts[0].logo} />
-                <h3>${elements_texts[0].subject}</h3>
+                <h3 class="text-dark fw-bolder">${elements_texts[0].subject}</h3>
             </div>
         `;
 
