@@ -500,6 +500,7 @@ class App{
                 this.validateAnswer(this.selected_answer, selected_answer_ele);
                 setTimeout(()=>{
                   this.goToNextQuestion();
+                  this.trackUserProgress();
                 }, 4000)
             }
             
@@ -581,6 +582,10 @@ class App{
           `;
           this.answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
       });
+    }
+
+    trackUserProgress(){
+      console.log("tracking user progress")
     }
 
     hideElement(ele){
