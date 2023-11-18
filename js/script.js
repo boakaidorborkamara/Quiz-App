@@ -388,6 +388,7 @@ class App{
         this.questions_per_category = null;
         this.answered_questions = 1;
         this.correctly_answered_questions = 0;
+        this.progress_percentage = 10;
 
         // DOM ELEMENTS 
         this.welcome_section_ele = document.getElementById("welcome-section");
@@ -500,11 +501,17 @@ class App{
 
             if(clicked_ele.id === "submit-btn"){
                 let selected_answer_ele = document.getElementById("selected-answer");
-                this.validateAnswer(this.selected_answer, selected_answer_ele);
+                let validation_result = this.validateAnswer(this.selected_answer, selected_answer_ele);
+
+                if(validation_result === 1){
+                  return;
+                }
+                
                 setTimeout(()=>{
                   this.goToNextQuestion();
                   this.updateQuestionsCount();
-                }, 4000)
+                  this.updateProgressBar();
+                }, 2000)
             }
             
         });
@@ -532,7 +539,7 @@ class App{
         // check if user submits without selecting an answer 
         if(user_answer === ""){
             alert("No answer selected!");
-            return;
+            return 1;
         }
 
         if(user_answer === correct_answer ){
@@ -588,13 +595,17 @@ class App{
     }
 
     updateQuestionsCount(){
-      console.log("tracking user progress")
       let total_qustions = this.questions_per_category.length;
       this.answered_questions
-      console.log("tq", total_qustions, this.answered_questions);
       let questions_count_ele = document.getElementById("questions-count");
-      console.log(questions_count_ele);
       questions_count_ele.innerText = `Question ${this.answered_questions} of ${total_qustions}`
+    }
+
+    updateProgressBar(){
+      let progress_bar = document.getElementById("progress-bar");
+      this.progress_percentage+= 10;
+      progress_bar.innerText = `${this.progress_percentage}%`;
+      progress_bar.attributes[2].value = `width: ${this.progress_percentage}%`
     }
 
     hideElement(ele){
@@ -618,6 +629,10 @@ class App{
 // initialize the app 
 let brainBoasterApp = new App();
 brainBoasterApp.int();
+
+document.addEventListener("click",(e)=>{
+  console.log(e.target)
+})
   
   
   
