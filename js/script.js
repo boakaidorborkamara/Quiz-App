@@ -386,7 +386,7 @@ class App{
         this.selected_answer = "";
         this.question_index = 0;
         this.questions_per_category = null;
-        this.answered_questions = 0;
+        this.answered_questions = 1;
         this.correctly_answered_questions = 0;
 
         // DOM ELEMENTS 
