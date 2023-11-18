@@ -423,10 +423,13 @@ class App{
             // check if any of the options from the quiz category was clicked 
             if(clicked_ele.classList.contains("quiz-category")){
                 this.updateHeader(clicked_ele);
+                
 
                 // get questions based on selected subject option 
                 let selected_subject = this.getSelectedSubject(clicked_ele);
                 this.questions_per_category = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
+
+                this.updateQuestionsCount();
                 
                 //display a question from the questions of the selected subject
                 this.question_paragraph_ele.innerText = this.questions_per_category[this.question_index]["question"];
@@ -500,7 +503,7 @@ class App{
                 this.validateAnswer(this.selected_answer, selected_answer_ele);
                 setTimeout(()=>{
                   this.goToNextQuestion();
-                  this.trackUserProgress();
+                  this.updateQuestionsCount();
                 }, 4000)
             }
             
@@ -584,8 +587,14 @@ class App{
       });
     }
 
-    trackUserProgress(){
+    updateQuestionsCount(){
       console.log("tracking user progress")
+      let total_qustions = this.questions_per_category.length;
+      this.answered_questions
+      console.log("tq", total_qustions, this.answered_questions);
+      let questions_count_ele = document.getElementById("questions-count");
+      console.log(questions_count_ele);
+      questions_count_ele.innerText = `Question ${this.answered_questions} of ${total_qustions}`
     }
 
     hideElement(ele){

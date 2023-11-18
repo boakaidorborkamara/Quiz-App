@@ -36,7 +36,7 @@ body{
 .answer-option:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    border-bottom: 4px double #61236d;
+    border-bottom: 4px double #66553B;
 }
 
 .pass{
