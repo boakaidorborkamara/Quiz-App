@@ -26,7 +26,7 @@ body{
 .quiz-category:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    background-color: #66553B;
+    background-color: #3b485b;
 }
 
 .answer-option{
@@ -37,7 +37,7 @@ body{
 .answer-option:hover{
     cursor: pointer;
     /* border: 1px solid white; */
-    background-color: #66553B;
+    border-bottom: 4px solid #66553B;
 }
 
 .pass{
@@ -46,9 +46,9 @@ body{
 
 
 .fail{
-    background-color: rgb(125, 5, 5) I !important;
+    background-color: rgb(125, 5, 5) !important;
 }
 
 .selected-answer{
-    background-color: #0f1217;
+    background-color: #66553B;
 }

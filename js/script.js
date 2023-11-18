@@ -439,7 +439,12 @@ class App{
                         <div>
                             <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[answer_options_index]}</h3>
                         </div>
-                        <h6>${ele}</h6>
+                        
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                          <h6 class="me-5">${ele}</h6>
+                          <i class="bi bi-check-square-fill d-none" id="pass-icon"></i>
+                          <i class="bi bi-x-square-fill d-none" id="fail-icon"></i>
+                        </div>
                         </div>
                     `;
                     this.answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
@@ -484,22 +489,18 @@ class App{
 
             if(clicked_ele.classList.contains("answer-option")){
                 
+                clicked_ele.id = "selected-answer";
                 let all_options = clicked_ele.parentNode.children;
+                console.log("about to select")
                 this.selectAnswer(clicked_ele, all_options);
-                // for(let i=0; i<4; i++){
-                //     all_options[i].classList.remove("selected-answer");
-                // }
-                // clicked_ele.classList.add("selected-answer");
-                // // let current_question = this.question_paragraph_ele
-                // console.log("kllll", this.question_index)
-                // this.selected_answer = clicked_ele.children[1].innerText;
-                
-
             }
 
             if(clicked_ele.id === "submit-btn"){
+                let selected_answer_ele = document.getElementById("selected-answer");
+                console.log("targeting", selected_answer_ele);
                 console.log("submitting", this.selected_answer);
-                this.validateAnswer(this.selected_answer, clicked_ele);
+                // console.log("selecete ele2", selected_option)
+                this.validateAnswer(this.selected_answer, selected_answer_ele);
             }
         });
     }
@@ -508,13 +509,16 @@ class App{
         let correct_answer = this.questions_per_category[this.question_index].correctAnswer;
         if(user_answer === ""){
             alert("Select an anser");
+            return;
         }
-        if(user_answer === correct_answer ){
-            console.log("working");
-            console.log("styling", ele);
-            ele.classList.add("fail")
-            console.log("Class list", ele.classList)
 
+        if(user_answer === correct_answer ){
+            ele.classList.remove("selected-answer");
+            ele.classList.add("pass");
+            let pass_icon = document.getElementById("pass-icon");
+        }
+        else{
+            ele.classList.add("fail");
         }
         console.log("Q-index", this.question_index)
         console.log("qI", this.questions_per_category[this.question_index].correctAnswer);
@@ -524,9 +528,12 @@ class App{
     }
 
     selectAnswer(element, parent_ele){
+        console.log(element)
         // loop through all children of parent element and remove style 
         for(let i=0; i<4; i++){
-            parent_ele[i].classList.remove("selected-answer");
+            if(parent_ele[i].classList.contains("selected-answer")){
+              parent_ele[i].classList.remove("selected-answer");
+            }
         }
 
         // add style to the anser option that was clicked 
@@ -559,9 +566,9 @@ class App{
 let brainBoasterApp = new App();
 brainBoasterApp.int();
 
-document.addEventListener("click",(e)=>{
-    console.log(e.target);
-})
+// document.addEventListener("click",(e)=>{
+//     console.log(e.target);
+// })
   
   
   
