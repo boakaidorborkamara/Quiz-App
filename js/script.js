@@ -397,6 +397,7 @@ class App{
         this.category_section_ele = document.getElementById("category-section");
         this.questions_section_ele = document.getElementById("questions-section");
         this.header_subject_container = document.getElementById("header-subject-container");
+        this.results_section_ele = document.getElementById("results-section");
         this.submit_btn_ele = document.getElementById("submit-btn");
     };
  
@@ -462,6 +463,15 @@ class App{
 
     }
 
+    displayResultSection(){
+      if(this.answered_questions === 11){
+        console.log("quizz completed");
+        console.log(this.questions_section_ele);
+        this.questions_section_ele.classList.add("d-none");
+        this.results_section_ele.classList.remove("d-none");
+      }
+    }
+
     getSelectedSubject(DOM_ele){
         let subject = DOM_ele.innerText;
         return subject;
@@ -517,7 +527,8 @@ class App{
                   this.goToNextQuestion();
                   this.updateQuestionsCount();
                   this.updateProgressBar();
-                }, 2000)
+                  this.displayResultSection();
+                }, 2000);
             }
             
         });
@@ -563,6 +574,9 @@ class App{
     }
 
     goToNextQuestion(){
+      if(this.answered_questions === 11){
+        return;
+      }
       // increment question index to update to the index of the next question 
       this.question_index++
       
