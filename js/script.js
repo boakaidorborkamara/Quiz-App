@@ -446,11 +446,7 @@ class App{
                             <h3 class="bg-light py-2 px-3 rounded text-dark me-4 fw-bolder">${answer_labels[answer_options_index]}</h3>
                         </div>
                         
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                          <h6 class="me-5">${ele}</h6>
-                          <i class="bi bi-check-square-fill d-none" id="pass-icon"></i>
-                          <i class="bi bi-x-square-fill d-none" id="fail-icon"></i>
-                        </div>
+                        <h6 class="me-5">${ele}</h6>
                         </div>
                     `;
                     this.answer_options_container.insertAdjacentHTML("beforeend", answer_options_template);
@@ -481,7 +477,7 @@ class App{
         let HTML_template = `
             <div class="d-flex align-items-center">
                 <img class="header-text-logo bg-light p-1 rounded me-2" src=${elements_texts[0].logo} />
-                <h3 class="text-dark fw-bolder">${elements_texts[0].subject}</h3>
+                <h3 class="text-dark fw-bolder">${elements_texts[0].subject} Quiz</h3>
             </div>
         `;
 
@@ -493,11 +489,21 @@ class App{
         document.addEventListener("click", (e)=>{
             let clicked_ele = e.target;
 
+            console.log("parnt", clicked_ele.parentNode.classList.contains("answer-option"))
             if(clicked_ele.classList.contains("answer-option")){
+                console.log("parnt", clicked_ele.parentNode)
                 clicked_ele.id = "selected-answer";
                 let all_options = clicked_ele.parentNode.children;
                 this.selectAnswer(clicked_ele, all_options);
             }
+            // else if(clicked_ele.parentNode.classList.contains("answer-option")){
+            //     console.log("parent");
+            //     clicked_ele.parentNode.id = "selected-answer";
+            //     let all_options = clicked_ele.parentNode.children;
+            //     console.log("all option")
+            //     this.selectAnswer(clicked_ele.parentNode, all_options);
+
+            // }
 
             if(clicked_ele.id === "submit-btn"){
                 let selected_answer_ele = document.getElementById("selected-answer");
@@ -506,7 +512,7 @@ class App{
                 if(validation_result === 1){
                   return;
                 }
-                
+
                 setTimeout(()=>{
                   this.goToNextQuestion();
                   this.updateQuestionsCount();
@@ -546,8 +552,6 @@ class App{
             ele.classList.remove("selected-answer");
             ele.classList.add("pass");
             this.correctly_answered_questions++;
-            
-
         }
         else{
             ele.classList.add("fail");
@@ -604,7 +608,7 @@ class App{
     updateProgressBar(){
       let progress_bar = document.getElementById("progress-bar");
       this.progress_percentage+= 10;
-      progress_bar.innerText = `${this.progress_percentage}%`;
+      // progress_bar.innerText = `${this.progress_percentage}%`;
       progress_bar.attributes[2].value = `width: ${this.progress_percentage}%`
     }
 
