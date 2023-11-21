@@ -99,19 +99,18 @@
             <section class="d-flex flex-column justify-content-center align-items-center py-5 d-none " id="results-section">
                 <div>
                     <h1 class="text-center">
-                        <span class="fw-lighter">Quiz Completed </span> <br><span class="fw-bolder fs-1">You Scored...</span>
+                        <span class="fw-lighter">Quiz Completed </span> <br><span class="fw-bolder fs-1">You Scored <span class="text-primary" id="user-score">0</span> </span>
                     </h1>
                 </div>
                 <div class="w-50 mt-5" >
                    <div class="p-4 rounded text-center" style="background-color: #300738;">
                         <div class="d-flex align-items-center justify-content-center">
-                            <img class="header-text-logo bg-light p-1 rounded me-2" src="https://cdn.worldvectorlogo.com/logos/python-5.svg"/>
-                            <h3 class=" fw-bolder">Accessibity</h3>
+                            <h3 class=" fw-bolder" id="completed-quiz-name"></h3>
                         </div>
-                        <p class="fw-bolder" style="font-size: 4em;">8</p>
-                        <p class="mb-4">out of 10</p>
+                        <p class="fw-bolder" style="font-size: 4em;" id="correct-answers-amount">0</p>
+                        <p class="mb-4">correct out of 10</p>
                         <div>
-                            <button type="button" class="btn btn-primary w-100 py-3" >Play Again</button>
+                            <button type="button" class="btn btn-primary w-100 py-3"  id="play-again-btn">Play Again</button>
                         </div>
                    </div>   
                 </div>

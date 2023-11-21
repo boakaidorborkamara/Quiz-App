@@ -383,6 +383,7 @@ class App{
 
         this.category = [{name:"HTML", logo:"https://cdn.worldvectorlogo.com/logos/html-1.svg"}, {name:"CSS", logo:"https://cdn.worldvectorlogo.com/logos/css-3.svg"}, {name:"JavaScript", logo:"https://cdn.worldvectorlogo.com/logos/javascript-1.svg"}, {name:"GIT", logo:"https://cdn.worldvectorlogo.com/logos/git-icon.svg"}, {name:"Python", logo:"https://cdn.worldvectorlogo.com/logos/python-5.svg"}, {name:"NodeJS", logo:"https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg"}];
 
+        this.selected_subject = ""
         this.selected_answer = "";
         this.question_index = 0;
         this.questions_per_category = null;
@@ -399,6 +400,9 @@ class App{
         this.header_subject_container = document.getElementById("header-subject-container");
         this.results_section_ele = document.getElementById("results-section");
         this.submit_btn_ele = document.getElementById("submit-btn");
+        this.user_score_ele = document.getElementById("user-score");
+        this.correct_answers_amount_ele = document.getElementById("correct-answers-amount");
+        this.play_again_btn = document.getElementById("play-again-btn");
     };
  
     displayCategories(){
@@ -428,8 +432,8 @@ class App{
                 
 
                 // get questions based on selected subject option 
-                let selected_subject = this.getSelectedSubject(clicked_ele);
-                this.questions_per_category = this.questionsBank[selected_subject.toLowerCase()+"QuestionsBank"];
+                this.selected_subject = this.getSelectedSubject(clicked_ele);
+                this.questions_per_category = this.questionsBank[this.selected_subject.toLowerCase()+"QuestionsBank"];
 
                 this.updateQuestionsCount();
                 
@@ -465,11 +469,23 @@ class App{
 
     displayResultSection(){
       if(this.answered_questions === 11){
-        console.log("quizz completed");
-        console.log(this.questions_section_ele);
+        // hide question section and display result section 
         this.questions_section_ele.classList.add("d-none");
         this.results_section_ele.classList.remove("d-none");
+
+        // update correct answer DOM element with user quiz details 
+        this.correct_answers_amount_ele.innerText = this.correctly_answered_questions;
+        let completed_quiz_name_ele = document.getElementById("completed-quiz-name");
+        //display the name of the quiz user just completed
+        completed_quiz_name_ele.innerText = `${this.selected_subject} Quiz Results`;
+        // display user score in percentage 
+        this.displayUserScore();
       }
+    }
+
+    displayUserScore(){
+      let user_score = this.correctly_answered_questions;
+      this.user_score_ele.innerText = `${user_score}0%`
     }
 
     getSelectedSubject(DOM_ele){
@@ -499,21 +515,11 @@ class App{
         document.addEventListener("click", (e)=>{
             let clicked_ele = e.target;
 
-            console.log("parnt", clicked_ele.parentNode.classList.contains("answer-option"))
             if(clicked_ele.classList.contains("answer-option")){
-                console.log("parnt", clicked_ele.parentNode)
                 clicked_ele.id = "selected-answer";
                 let all_options = clicked_ele.parentNode.children;
                 this.selectAnswer(clicked_ele, all_options);
             }
-            // else if(clicked_ele.parentNode.classList.contains("answer-option")){
-            //     console.log("parent");
-            //     clicked_ele.parentNode.id = "selected-answer";
-            //     let all_options = clicked_ele.parentNode.children;
-            //     console.log("all option")
-            //     this.selectAnswer(clicked_ele.parentNode, all_options);
-
-            // }
 
             if(clicked_ele.id === "submit-btn"){
                 let selected_answer_ele = document.getElementById("selected-answer");
