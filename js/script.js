@@ -486,6 +486,7 @@ class App{
     displayUserScore(){
       let user_score = this.correctly_answered_questions;
       this.user_score_ele.innerText = `${user_score}0%`
+      this.restartQuiz();
     }
 
     getSelectedSubject(DOM_ele){
@@ -638,6 +639,12 @@ class App{
 
     showElement(ele){
         ele.classList.remove("d-none");
+    }
+
+    restartQuiz(){
+      this.play_again_btn.addEventListener("click", ()=>{
+        window.location.reload();
+      })
     }
 
     // contains methods that enable app to run and implement all features 
