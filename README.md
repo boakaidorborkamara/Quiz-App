@@ -21,9 +21,9 @@ This is a quiz app that allows developers to test their skills level in differen
 
 - [x] See hover and focus states for all interactive elements on the page
 
-- [ ] See a completed state with the score after the final question
+- [x] See a completed state with the score after the final question
 
-- [ ] Play again to choose another subject
+- [x] Play again to choose another subject
 
 - [ ] View the optimal layout for the interface depending on their device's screen size
 
